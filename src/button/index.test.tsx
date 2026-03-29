@@ -14,6 +14,11 @@ describe('Button',()=>{
     const buttonElement = screen.getByText(/click me/i);
     expect(buttonElement).toBeInTheDocument();
   });
+  test('renders button primary',()=>{
+    render(<Button type='primary'>click me</Button>)
+    const buttonElement = screen.getByText(/click me/i);
+    expect(buttonElement).toHaveClass('ant-btn-primary');
+  })
   test('renders button with size', () => {
     render(<Button size="large" onClick={()=>{}} onBlur={()=>{}}>click me</Button>);
     const buttonElement = screen.getByText(/click me/i);
