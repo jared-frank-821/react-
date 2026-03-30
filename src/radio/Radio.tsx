@@ -5,6 +5,7 @@ import type { CSSProperties, ChangeEvent } from 'react';
 
 export interface RadioProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
+  value?: string;
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
@@ -15,7 +16,7 @@ export interface RadioProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const Radio = (props: RadioProps) => {
-  const { className, checked, defaultChecked, children, style, onChange, disabled } = props;
+  const { className, checked, defaultChecked, children, style, onChange, disabled,value } = props;
   
   // 区分受控和非受控组件
   const [checkedState, setChecked] = useState(defaultChecked ?? false);
@@ -57,6 +58,7 @@ const Radio = (props: RadioProps) => {
           defaultChecked={defaultChecked}
           onChange={handleChange}
           disabled={disabled}
+          value={value}
         />
         <span className="ant-radio-inner" />
       </span>
