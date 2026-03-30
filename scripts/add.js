@@ -32,6 +32,7 @@ const lowCase = str => {
 
     const fileName = path.basename(filePath)
       .replace('components', dirName)
+      .replace('Compomemts', componentName)
       .replace('.hbs', '');
     const newPath = path.join(targetDir, fileName);
 

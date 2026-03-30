@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    type: 'primary',
+    
     children: 'Radio',
   },
 };
@@ -29,17 +29,28 @@ export const Basic: Story = {
       margin: '10px',
     },
     children: 'Radio',
+  }
+};
+
+export const unchecked: Story = {
+  args: {
+    checked: false,
+    children: 'Unchecked Radio',
+  },
+  render: () => (  <>
+  <Radio checked={false}>Unchecked Radio</Radio>
+    </>
+  )
+};
+
+export const disabled: Story = {
+  args: {
+    disabled: true,
+    children: 'Disabled Radio',
   },
   render: () => (
     <>
-      <Radio type="primary">Primary Radio</Radio>
-
+    <Radio disabled>Disabled Radio</Radio>
     </>
-  ),
-};
-
-export const Secondary: Story = {
-  args: {
-    children: 'Radio',
-  },
+  )
 };
