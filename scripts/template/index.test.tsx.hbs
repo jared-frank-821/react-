@@ -1,0 +1,35 @@
+// import '@testing-library/jest-dom';
+import React from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import {{componentName}} from './index';
+import type { {{componentName}}Props } from './index';
+
+describe('{{componentName}}',()=>{
+  test('renders {{componentName}}', () => {
+    render(<{{componentName}} onClick={()=>{}} onBlur={()=>{}}>click me</{{componentName}}>);
+    const {{componentName}}Element = screen.getByText(/click me/i);
+    expect({{componentName}}Element).toBeInTheDocument();
+  });
+  test('renders {{componentName}} with type', () => {
+    render(<{{componentName}} type="primary" onClick={()=>{}} onBlur={()=>{}}>click me</{{componentName}}>);
+    const {{componentName}}Element = screen.getByText(/click me/i);
+    expect({{componentName}}Element).toBeInTheDocument();
+  });
+  test('renders {{componentName}} primary',()=>{
+    render(<{{componentName}} type='primary'>click me</{{componentName}}>)
+    const {{dirName}}Element = screen.getByText(/click me/i);
+    expect({{dirName}}Element).toHaveClass('ant-{{dirName}}-primary');
+  })
+  test('renders {{componentName}} with size', () => {
+    render(<{{componentName}} size="large" onClick={()=>{}} onBlur={()=>{}}>click me</{{componentName}}>);
+    const {{componentName}}Element = screen.getByText(/click me/i);
+    expect({{componentName}}Element).toBeInTheDocument();
+  });
+  test('should support click',()=>{
+    const onClick = vi.fn();
+    render(<{{componentName}} onClick={onClick} type='primary' onBlur={()=>{}}>click me</{{componentName}}>);
+    const linkElement =screen.getByText(/click me/i)
+    fireEvent.click(linkElement);
+    expect(onClick).toHaveBeenCalled();
+  })
+})

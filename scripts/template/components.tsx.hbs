@@ -1,0 +1,24 @@
+import React from 'react';
+import classNames from 'classnames';
+import './index.scss';
+import type { CSSProperties } from 'react';
+export interface {{dirName}}Props extends React.HTMLAttributes<HTMLElement>{
+  className?:string;
+  type?:'primary'|'normal'|'dashed'|'text'|'link';
+  children:React.ReactNode;
+  backgroundColor?:string;
+  style?:CSSProperties;
+  size?:'large'|'small'|'medium';
+ 
+}
+const {{componentName}} =(props:{{dirName}}Props)=>{
+  const {className,type='normal',children,style,size='medium'} =props;
+  const cls=classNames({
+    'ant-{{dirName}}':true,
+    [`ant-{{dirName}}-${size}`]: size,
+    [`ant-{{dirName}}-${type}`]: type,  // 使用模板字符串
+    [className as string]:className
+  })
+  return <span className={cls} style={style}>{children}</span>
+}
+export default {{componentName}};

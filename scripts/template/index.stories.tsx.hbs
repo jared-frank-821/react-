@@ -1,0 +1,45 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
+import {{componentName}} from './index';
+
+const meta = {
+  title: 'Example/{{componentName}}',
+  component: {{componentName}},
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+
+} satisfies Meta<typeof {{componentName}}>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Primary: Story = {
+  args: {
+    type: 'primary',
+    children: '{{componentName}}',
+  },
+};
+
+export const Basic: Story = {
+  args: {
+    style: {
+      margin: '10px',
+    },
+    children: '{{componentName}}',
+  },
+  render: () => (
+    <>
+      <{{componentName}} type="primary">Primary {{componentName}}</{{componentName}}>
+
+    </>
+  ),
+};
+
+export const Secondary: Story = {
+  args: {
+    children: '{{componentName}}',
+  },
+};
