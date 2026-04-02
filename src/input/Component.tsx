@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './index.scss';
 import type { CSSProperties } from 'react';
-export interface InputProps extends Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange'> {
+export interface InputProps extends Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange' | 'prefix'> {
 
   value?: string;
   defaultValue?: string;
@@ -41,6 +41,7 @@ const Input = (props: InputProps) => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(disabled) return;
     if (!('value' in props)) {
       setValue(e.target.value);
     }
