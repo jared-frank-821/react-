@@ -35,8 +35,15 @@ const lowCase = str => {
       .replace('Compomemts', componentName)
       .replace('.hbs', '');
     const newPath = path.join(targetDir, fileName);
-
+    
     await fs.promises.writeFile(newPath, result);
     console.log(`write ${newPath} success`);
+
   }
+
+  const response=await fetch(`https://unpkg.com/antd@4.24.15/es/${dirName}/style/index.css`)
+  const body=await response.text()
+
+  await fs.promises.writeFile(path.join(process.cwd(),`src/${dirName}/index.scss`),body)
+  console.log(`write ${path.join(process.cwd(),`src/${dirName}/index.scss`)} success`)
 })();
