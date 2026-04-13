@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import './index.scss';
 import type { ButtonHTMLAttributes, CSSProperties } from 'react';
@@ -12,18 +12,11 @@ export interface buttonProps
   backgroundColor?: string;
   style?: CSSProperties;
   size?: 'large' | 'small' | 'medium';
+  ref?: React.RefObject<HTMLButtonElement>;
 }
 
-const Button = (props: buttonProps) => {
-  const {
-    className,
-    type = 'normal',
-    htmlType = 'button',
-    children,
-    style,
-    size = 'medium',
-    ...rest
-  } = props;
+const Button =forwardRef<HTMLButtonElement, buttonProps>((props, ref) => {
+  const {className,type = 'normal',htmlType = 'button',children,style,size = 'medium',...rest} = props;
 
   const cls = classNames(
     'ant-btn',
@@ -35,10 +28,10 @@ const Button = (props: buttonProps) => {
   );
 
   return (
-    <button {...rest} type={htmlType} className={cls} style={style}>
+    <button {...rest} ref={ref} type={htmlType} className={cls} style={style}>
       {children}
     </button>
   );
-};
+});
 
 export default Button;
