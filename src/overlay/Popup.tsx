@@ -7,9 +7,12 @@ export interface popupProps extends Omit<overlayProps, 'children'> {
   trigger: ReactElement;
   children: ReactElement | string;
   placement?: PlacementType;
+  beforePosition?:Function
+  triggerType?:'hover'|'click'
 }
 const Popup = (props: popupProps) => {
   const { trigger, children, ...others } = props;
+  const {triggerType='click'}=props
   const triggerRef=useRef(null)
   const [visible,setVisible]=useState(false)
 
@@ -23,7 +26,14 @@ const Popup = (props: popupProps) => {
     }
   }
 
-  const triggerNode=cloneElement(trigger,triggerProps)
+  if(triggerType==='hover'){
+    triggerProps.onMouseEnter=()=>setVisible(true)
+    triggerProps.onMouseLeave=()=>setVisible(false)
+  }else{
+    triggerProps.onClick=()=>setVisible(true)
+  }
+  const triggerEle=typeof trigger ==='string'?<span>{trigger}</span>:trigger
+  const triggerNode=cloneElement(triggerEle,triggerProps)
   const handleVisibleChange=(visible:boolean)=>{
     setVisible(visible)
   }

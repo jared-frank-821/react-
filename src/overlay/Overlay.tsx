@@ -17,10 +17,11 @@ export interface overlayProps extends React.HTMLAttributes<HTMLElement> {
   target?: HTMLElement | (() => HTMLElement);
   points?: PointType;
   placement?:PlacementType
+  beforePosition?:Function
 }
 
 const Overlay = (props: overlayProps) => {
-  const { children, visible: pvisible, onVisibleChange, target, points, placement } = props;
+  const { children, visible: pvisible, onVisibleChange, target, points, placement ,beforePosition} = props;
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
   const [positionStyle, setPositionStyle] = useState<CSSProperties>({});
@@ -37,17 +38,18 @@ const Overlay = (props: overlayProps) => {
       target: targetElement, 
       overlay: overlayRef.current, 
       points: points,
-      placement: placement // <--- 重点加上这个！
+      placement: placement,
+      beforePosition: beforePosition as Function // 确保这里传了！
     });
     setPositionStyle(style as CSSProperties);
-  }, [target, points, placement]); // 3. 依赖项也加上 placement
+}, [target, points, placement, beforePosition]);
 
   // ref 回调：挂载时保存节点，卸载时置空
   const overlayRefCallback = useCallback((node: HTMLElement | null) => {
     overlayRef.current = node;
     if(node&&target){
       const targetElement=typeof target==='function'? target():target
-      const positionStyle=getPlacement({target:targetElement,overlay:node,points:points})
+      const positionStyle=getPlacement({target:targetElement,overlay:node,points:points,beforePosition:beforePosition as Function})
       setPositionStyle(positionStyle as CSSProperties)
     }
   }, []);

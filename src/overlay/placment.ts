@@ -4,6 +4,7 @@ interface placementConfig {
   placement?: PlacementType;
   points?: PointType;
   overlay:HTMLElement;
+  beforePosition:Function
 }
 
 type point= 'tl'|'tc'| 'tr'| 'cl'| 'cc' |'cr'|'bl'|'bc'|'br';
@@ -30,16 +31,19 @@ export default function getPlacement({
   placement,
   points: opints = ['tl', 'bl'],
   overlay,
+  beforePosition
 }: placementConfig) { // 关联接口
   if(!target||!overlay){
     return{}
   }
   const { width: twidth, height: theight, left: tleft, top: ttop } = target.getBoundingClientRect();
   const { left: cleft, top: ctop } = document.body.getBoundingClientRect();
-  const { scrollTop: cscrollTop, scrollLeft: cscrollLeft } = document.body;
+  const { scrollTop: cscrollTop, scrollLeft: cscrollLeft ,scrollWidth:cwidth,scrollHeight:cheight} = document.body;
   const { width: owidth, height: oheight } = overlay.getBoundingClientRect();
 
-  let points = opints;
+
+  function getTopLeft(placement:PlacementType){
+    let points = opints;
   if (placement && placement in placementMap) {
     points = placementMap[placement as keyof typeof placementMap] as PointType;
   }
@@ -95,10 +99,62 @@ export default function getPlacement({
     left-=owidth;
     break;
   }
-  return {
+
+  return{
+    left,
+    top
+  }
+  }
+  let realPlacement=placement;
+  const {left,top}=getTopLeft(placement);
+
+  let result={
     position: 'absolute',
     top, // 使用计算好的变量
     left,
-   
-  };
+  }
+ 
+  if(left<0||top<0||left+owidth>cwidth||top+oheight>cheight){
+    let newPlacement=placement;
+    if(left<0){
+      newPlacement=newPlacement?.replace('left','right') as PlacementType;
+      newPlacement=newPlacement?.replace('Right','Left') as PlacementType;
+    }
+    if(top<0){
+      newPlacement=newPlacement?.replace('top','bottom') as PlacementType;
+      newPlacement=newPlacement?.replace('Bottom','Top') as PlacementType;
+    }
+    if(left+owidth>cwidth){
+      newPlacement=newPlacement?.replace('right','left') as PlacementType;
+      newPlacement=newPlacement?.replace('Left','Right') as PlacementType;
+    }
+    if(top+oheight>cheight){
+      newPlacement=newPlacement?.replace('bottom','top') as PlacementType;
+      newPlacement=newPlacement?.replace('Top','Bottom') as PlacementType;
+    }
+    const {left:nleft,top:ntop}=getTopLeft(newPlacement)
+
+    result.left=nleft;
+    result.top=ntop;
+    realPlacement=newPlacement;
+  }
+
+if(result.left<0)
+{
+  result.left=0;
+}
+  
+if(result.top<0){
+  result.top=0;
+}
+  if(typeof beforePosition==='function'){
+    result=beforePosition(result,{
+      target:{
+        width:twidth,
+        height:theight,
+      },
+      placement:realPlacement,
+    })
+  }
+  return result
 }

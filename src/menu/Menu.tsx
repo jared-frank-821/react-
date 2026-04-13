@@ -32,7 +32,7 @@ export interface menuProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onSe
   openKeys?:string[];
   accordion?:boolean;
   onSelect?: (key: string) => void;
-  items?: MenuItem[];
+  items?: Array<object>
 }
 
 const Menu =(props:menuProps)=>{
@@ -110,6 +110,7 @@ const Menu =(props:menuProps)=>{
 
   const renderedChildren = items ? renderItems(items) : children;
 
+  
   const cls = classNames(
     'ant-menu',
     'ant-menu-root',
