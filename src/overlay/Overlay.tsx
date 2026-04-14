@@ -4,10 +4,10 @@ import './index.scss';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { CSSProperties, ReactElement } from 'react';
 import { useListener } from './utils';
-import getPlacement, { type PointType, type PlacementType } from './placment';
+import getPlacement, { type PointType, type PlacementType } from './placement';
 
 
-export interface overlayProps extends React.HTMLAttributes<HTMLElement> {
+export interface OverlayProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
   children?: ReactElement ;
   hasMask?: boolean;

@@ -13,11 +13,12 @@ export interface itemProps extends React.HTMLAttributes<HTMLElement>{
   type?:'group'|'item';
   disabled?:boolean;
   itemKey?: string; // 👇 1. 接口新增 itemKey (去掉原来的 key?: string)
+  prefix?:string; 
 }
 
 const Item =(props:itemProps)=>{
  // 👇 2. 解构出 itemKey (去掉原来的 key)
- const { className, title, children, style, icon, disabled, itemKey, ...rest } = props;
+ const { className, title, children, style, icon, disabled, itemKey, prefix='ant-', ...rest } = props;
 
  const ctx = useContext(MenuContext);
  const level = ctx.level;
@@ -28,9 +29,9 @@ const Item =(props:itemProps)=>{
  const isSelected = ctx.selectedKeys.includes(menuKey);
 
  const cls = classNames(
-  'ant-menu-item',
-  { 'ant-menu-item-disabled': disabled },
-  { 'ant-menu-item-selected': isSelected },
+  `${prefix}menu-item`,
+  { [`${prefix}menu-item-disabled`]: disabled },
+  { [`${prefix}menu-item-selected`]: isSelected },
   className
 );
 
@@ -43,7 +44,7 @@ const handleClick = () => {
     : null;
   return <li role="menuitem" className={cls} style={style} {...rest} onClick={handleClick}>
     {iconEle}
-    <span className='ant-menu-title-content'>{children}</span>
+    <span className={`${prefix}menu-title-content`}>{children}</span>
   </li>
 }
 export default Item;

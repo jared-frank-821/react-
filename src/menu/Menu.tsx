@@ -33,10 +33,12 @@ export interface menuProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onSe
   accordion?:boolean;
   onSelect?: (key: string) => void;
   items?: Array<object>
+  prefix?:string;
 }
 
-const Menu =(props:menuProps)=>{
+const Menu =React.forwardRef<HTMLUListElement,menuProps>((props:menuProps,ref)=>{
   const {
+    prefix='antd-',
     className,
     children,
     style,
@@ -112,12 +114,13 @@ const Menu =(props:menuProps)=>{
 
   
   const cls = classNames(
-    'ant-menu',
-    'ant-menu-root',
-    [`ant-menu-${mode}`],
-    [`ant-menu-${theme}`],
+    {
+      [`${prefix}menu`]:true,
+    [`${prefix}menu-root`]:true,
+    [`${prefix}menu-${mode}`]:true,
+    [`${prefix}menu-${theme}`]:true,
     className
-  );
+  });
   return <MenuContext.Provider value={{
     mode,
     inlineIndent,
@@ -127,7 +130,7 @@ const Menu =(props:menuProps)=>{
     openKeys,
     onOpenChange: handleOpenChange
   }}>
-    <ul className={cls} style={style} {...rest}>{renderedChildren}</ul>
+    <ul className={cls} style={style}ref={ref} {...rest} >{renderedChildren}</ul>
   </MenuContext.Provider>
-}
+})
 export default Menu;

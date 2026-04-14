@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './index.scss';
 import type { CSSProperties, ReactNode } from 'react';
 import Popup from '../overlay/Popup';
-import { type PlacementType } from '../overlay/placment';
+import { type PlacementType } from '../overlay/placement';
 
 export interface tooltipProps extends React.HTMLAttributes<HTMLElement> {
   className?: string;
